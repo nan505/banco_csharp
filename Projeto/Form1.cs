@@ -1,5 +1,4 @@
-﻿using MySqlConnector;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySqlConnector;
 
 namespace Projeto
 {
@@ -21,25 +21,33 @@ namespace Projeto
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
-            string conexaoString = "server=localhost;user=root;password=;database=db_quiz_p;";
-            string valor = "";
-            long ultimoID = 0;
+            string campoNome = txtNome.Text;
+            int controleLinhasAfetadas = 0;
 
-            using (MySqlConnection conexao = new MySqlConnection(conexaoString))
-            {
-                conexao.Open();
-                string scriptInsert = "INSERT INTO tb_perguntas (coluna) VALUE (@valor)";
+            string dadosConexao = 
+                "server=localhost;user=root;password=;database=projeto_banco_csharp";
+            using (MySqlConnection conn = new MySqlConnection(dadosConexao) )
+            {// utilizo das informações
+                conn.Open();
+                string scriptInsert = "INSERT INTO tb_cadastro (nome) VALUE (@nome)";
 
-                using (MySqlCommand comando = new MySqlCommand(scriptInsert, conexao))
+                using (MySqlCommand comando = new MySqlCommand(scriptInsert,conn))
                 {
-                    //substitui os parametros para os valores reais
-                    comando.Parameters.AddWithValue("@valor", valor);
+                    comando.Parameters.AddWithValue("@nome", campoNome);
 
-                    comando.ExecuteNonQuery();
-
-                    ultimoID = comando.LastInsertedId;
+                    controleLinhasAfetadas = comando.ExecuteNonQuery();
                 }
+                conn.Close();
+            }//MysqlConnection
+
+            if (controleLinhasAfetadas > 0)
+            {
+                MessageBox.Show("Dados salvo com sucesso!");
+            } else
+            {
+                MessageBox.Show("Ops. Algo deu errado!!!");
             }
+
         }
     }
 }

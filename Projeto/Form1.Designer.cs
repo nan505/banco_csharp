@@ -37,7 +37,7 @@
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnConsultar = new System.Windows.Forms.Button();
             this.btnExcluir = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbServico = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtId = new System.Windows.Forms.TextBox();
             this.lbIdResultado = new System.Windows.Forms.Label();
@@ -133,19 +133,19 @@
             this.btnExcluir.Text = "btnExcluir";
             this.btnExcluir.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // cbServico
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.cbServico.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbServico.FormattingEnabled = true;
+            this.cbServico.Items.AddRange(new object[] {
             "Corte",
             "Barba",
             "Lavagem",
             "Qualquer Coisa"});
-            this.comboBox1.Location = new System.Drawing.Point(148, 86);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(251, 33);
-            this.comboBox1.TabIndex = 11;
+            this.cbServico.Location = new System.Drawing.Point(148, 86);
+            this.cbServico.Name = "cbServico";
+            this.cbServico.Size = new System.Drawing.Size(251, 33);
+            this.cbServico.TabIndex = 11;
             // 
             // label4
             // 
@@ -216,7 +216,7 @@
             this.Controls.Add(this.lbNomeResultado);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtId);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cbServico);
             this.Controls.Add(this.btnExcluir);
             this.Controls.Add(this.btnConsultar);
             this.Controls.Add(this.btnEditar);
@@ -244,7 +244,7 @@
         private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.Button btnConsultar;
         private System.Windows.Forms.Button btnExcluir;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbServico;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtId;
         private System.Windows.Forms.Label lbIdResultado;
