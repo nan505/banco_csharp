@@ -24,11 +24,11 @@ DROP TABLE IF EXISTS `tb_cadastro`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_cadastro` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Nome` varchar(255) DEFAULT NULL,
+  `nome` varchar(255) DEFAULT NULL,
   `servico` varchar(100) DEFAULT NULL,
   `data_servico` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `tb_cadastro` (
 
 LOCK TABLES `tb_cadastro` WRITE;
 /*!40000 ALTER TABLE `tb_cadastro` DISABLE KEYS */;
+INSERT INTO `tb_cadastro` VALUES (1,'Paulo','teste','2026-05-08'),(2,'Paulo',NULL,NULL),(3,'Iori',NULL,NULL),(4,'Erica',NULL,NULL),(5,'Erica',NULL,NULL),(6,'Erica',NULL,NULL),(7,'Erica',NULL,NULL),(8,'Erica',NULL,NULL),(9,'Erica',NULL,NULL),(10,'Erica',NULL,NULL),(11,'Erica',NULL,NULL),(12,'Erica',NULL,NULL),(13,'Erica',NULL,NULL),(14,'Erica',NULL,NULL),(15,'Leandro',NULL,NULL);
 /*!40000 ALTER TABLE `tb_cadastro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-07 19:48:55
+-- Dump completed on 2026-05-08 19:27:27

@@ -44,6 +44,9 @@
             this.lbDataResultado = new System.Windows.Forms.Label();
             this.lbServicoResultado = new System.Windows.Forms.Label();
             this.lbNomeResultado = new System.Windows.Forms.Label();
+            this.dgvListarTudo = new System.Windows.Forms.DataGridView();
+            this.btnConsultarLista = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListarTudo)).BeginInit();
             this.SuspendLayout();
             // 
             // txtNome
@@ -122,6 +125,7 @@
             this.btnConsultar.TabIndex = 9;
             this.btnConsultar.Text = "btnConsultar";
             this.btnConsultar.UseVisualStyleBackColor = true;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
             // 
             // btnExcluir
             // 
@@ -205,11 +209,37 @@
             this.lbNomeResultado.TabIndex = 14;
             this.lbNomeResultado.Text = "Nome";
             // 
+            // dgvListarTudo
+            // 
+            this.dgvListarTudo.AllowUserToAddRows = false;
+            this.dgvListarTudo.AllowUserToDeleteRows = false;
+            this.dgvListarTudo.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvListarTudo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListarTudo.Location = new System.Drawing.Point(422, 176);
+            this.dgvListarTudo.Name = "dgvListarTudo";
+            this.dgvListarTudo.ReadOnly = true;
+            this.dgvListarTudo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvListarTudo.Size = new System.Drawing.Size(416, 270);
+            this.dgvListarTudo.TabIndex = 18;
+            // 
+            // btnConsultarLista
+            // 
+            this.btnConsultarLista.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnConsultarLista.Location = new System.Drawing.Point(21, 354);
+            this.btnConsultarLista.Name = "btnConsultarLista";
+            this.btnConsultarLista.Size = new System.Drawing.Size(378, 55);
+            this.btnConsultarLista.TabIndex = 19;
+            this.btnConsultarLista.Text = "btnConsultarLista";
+            this.btnConsultarLista.UseVisualStyleBackColor = true;
+            this.btnConsultarLista.Click += new System.EventHandler(this.btnConsultarLista_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(850, 458);
+            this.Controls.Add(this.btnConsultarLista);
+            this.Controls.Add(this.dgvListarTudo);
             this.Controls.Add(this.lbIdResultado);
             this.Controls.Add(this.lbDataResultado);
             this.Controls.Add(this.lbServicoResultado);
@@ -228,6 +258,7 @@
             this.Controls.Add(this.txtNome);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListarTudo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,6 +282,8 @@
         private System.Windows.Forms.Label lbDataResultado;
         private System.Windows.Forms.Label lbServicoResultado;
         private System.Windows.Forms.Label lbNomeResultado;
+        private System.Windows.Forms.DataGridView dgvListarTudo;
+        private System.Windows.Forms.Button btnConsultarLista;
     }
 }
 

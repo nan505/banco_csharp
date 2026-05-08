@@ -49,5 +49,15 @@ namespace Projeto
             }
 
         }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnConsultarLista_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
