@@ -19,7 +19,7 @@ namespace Projeto
             InitializeComponent();
         }
         const string DADOS_CONEXAO =
-            "server=localhost;user=root;password=;database=projeto_banco_csharp";
+            "server=localhost;user=root;password=;database=db_cadastro";
         private void btnSalvar_Click(object sender, EventArgs e)
         {
             string campoNome = txtNome.Text;
@@ -116,14 +116,14 @@ namespace Projeto
                     scriptConsulta = "SELECT * FROM tb_cadastro";
                 }
 
-                if (dataConvertida != null && dataConvertida != DateTime.Now)
-                {
-                    scriptConsulta = "SELECT * FROM tb_cadastro WHERE data_servico = @data_servico";
-                }
-                else
-                {
-                    scriptConsulta = "SELECT * FROM tb_cadastro";
-                }
+                //if (dataConvertida != null && dataConvertida != DateTime.Now)
+                //{
+                //    scriptConsulta = "SELECT * FROM tb_cadastro WHERE data_servico = @data_servico";
+                //}
+                //else
+                //{
+                //    scriptConsulta = "SELECT * FROM tb_cadastro";
+                //}
 
                 using (MySqlCommand comando = new MySqlCommand(scriptConsulta, conn))
                 {
@@ -145,12 +145,57 @@ namespace Projeto
 
                     dgvListarTudo.DataSource = dt;
 
-
-
                 }
 
                 conn.Close();
             }
+        }
+
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
+            {// utilizo das informações
+                conn.Open();
+                string scriptDelete = "DELETE tb_cadastro WHERE id = @id";
+                string campoId = txtId.Text;
+                int controleLinhasAfetadas = 0;
+
+                using (MySqlCommand comando = new MySqlCommand(scriptDelete, conn))
+                {
+                    comando.Parameters.AddWithValue("@id", campoId);
+
+                    controleLinhasAfetadas = comando.ExecuteNonQuery();
+                }
+                conn.Close();
+            }//MysqlConnection
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
+            {// utilizo das informações
+                conn.Open();
+                string scriptUpdate = "UPDATE tb_cadastro SET " +
+                    "nome = @nome, servico = @servico, data_servico = @data_servico WHERE id = @id";
+
+                string campoId = txtId.Text;
+                string campoNome = txtNome.Text;
+                string campoServico = cbServico.Text;
+                DateTime dataConvertida = DateTime.Parse(dtpData.Text);
+
+                int controleLinhasAfetadas = 0;
+
+                using (MySqlCommand comando = new MySqlCommand(scriptUpdate, conn))
+                {
+                    comando.Parameters.AddWithValue("@nome", campoNome);
+                    comando.Parameters.AddWithValue("@servico", campoServico);
+                    comando.Parameters.AddWithValue("@data_servico", dataConvertida);
+                    comando.Parameters.AddWithValue("@id", campoId);
+
+                    controleLinhasAfetadas = comando.ExecuteNonQuery();
+                }
+                conn.Close();
+            }//MysqlConnection
         }
     }
 }

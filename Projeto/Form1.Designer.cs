@@ -115,6 +115,7 @@
             this.btnEditar.TabIndex = 8;
             this.btnEditar.Text = "btnEditar";
             this.btnEditar.UseVisualStyleBackColor = true;
+            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // btnConsultar
             // 
@@ -136,6 +137,7 @@
             this.btnExcluir.TabIndex = 10;
             this.btnExcluir.Text = "btnExcluir";
             this.btnExcluir.UseVisualStyleBackColor = true;
+            this.btnExcluir.Click += new System.EventHandler(this.btnExcluir_Click);
             // 
             // cbServico
             // 
