@@ -26,8 +26,6 @@ namespace Projeto
             string campoServico = cbServico.Text;
             string campoData = dtpData.Text;
 
-            DateTime dataConvertida = DateTime.Parse(campoData);
-
             int controleLinhasAfetadas = 0;
 
             //MessageBox.Show( 
@@ -36,65 +34,75 @@ namespace Projeto
             //    $"data: {campoData}\n" +
             //    $"data Convertida: {dataConvertida}");
 
-            
-            using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO) )
-            {// utilizo das informações
-                conn.Open();
-                string scriptInsert = "INSERT INTO tb_cadastro (nome, servico, data_servico) " +
-                                        "VALUE (@nome, @servico, @data_servico)";
+            if (campoNome != string.Empty && campoServico != string.Empty && campoData != string.Empty)
+            {
+                DateTime dataConvertida = DateTime.Parse(campoData);
 
-                using (MySqlCommand comando = new MySqlCommand(scriptInsert,conn))
+                using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO) )
+                {// utilizo das informações
+                    conn.Open();
+                    string scriptInsert = "INSERT INTO tb_cadastro (nome, servico, data_servico) " +
+                                            "VALUE (@nome, @servico, @data_servico)";
+
+                    using (MySqlCommand comando = new MySqlCommand(scriptInsert,conn))
+                    {
+                        comando.Parameters.AddWithValue("@nome", campoNome);
+                        comando.Parameters.AddWithValue("@servico", campoServico);
+                        comando.Parameters.AddWithValue("@data_servico", dataConvertida);
+
+                        controleLinhasAfetadas = comando.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }//MysqlConnection
+
+                if (controleLinhasAfetadas > 0)
                 {
-                    comando.Parameters.AddWithValue("@nome", campoNome);
-                    comando.Parameters.AddWithValue("@servico", campoServico);
-                    comando.Parameters.AddWithValue("@data_servico", dataConvertida);
-
-                    controleLinhasAfetadas = comando.ExecuteNonQuery();
+                    MessageBox.Show("Dados salvo com sucesso!");
                 }
-                conn.Close();
-            }//MysqlConnection
+                else
+                {
+                    MessageBox.Show("Ops. Algo deu errado!!!");
+                }
 
-            if (controleLinhasAfetadas > 0)
-            {
-                MessageBox.Show("Dados salvo com sucesso!");
-            } else
-            {
-                MessageBox.Show("Ops. Algo deu errado!!!");
             }
-
         }
 
         private void btnConsultar_Click(object sender, EventArgs e)
         {
             string idConsulta = txtId.Text;
 
-
-            using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
+            if (idConsulta != string.Empty)
             {
-                conn.Open();
-                string scriptConsultaIndividual = "SELECT * FROM tb_cadastro WHERE id = @id";
-
-                using (MySqlCommand comando = new MySqlCommand(scriptConsultaIndividual, conn))
+                using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
                 {
-                    comando.Parameters.AddWithValue("@id", idConsulta);
+                    conn.Open();
+                    string scriptConsultaIndividual = "SELECT * FROM tb_cadastro WHERE id = @id";
 
-
-                    var dadosResultado = comando.ExecuteReader();
-
-                    while (dadosResultado.Read())
+                    using (MySqlCommand comando = new MySqlCommand(scriptConsultaIndividual, conn))
                     {
-                        lbIdResultado.Text = dadosResultado["id"].ToString();
-                        lbNomeResultado.Text = dadosResultado["nome"].ToString();
-                        lbServicoResultado.Text = dadosResultado["servico"].ToString();
-                        lbDataResultado.Text = dadosResultado["data_servico"].ToString();
+                        comando.Parameters.AddWithValue("@id", idConsulta);
+
+
+                        var dadosResultado = comando.ExecuteReader();
+
+                        while (dadosResultado.Read())
+                        {
+                            lbIdResultado.Text = dadosResultado["id"].ToString();
+                            lbNomeResultado.Text = dadosResultado["nome"].ToString();
+                            lbServicoResultado.Text = dadosResultado["servico"].ToString();
+                            lbDataResultado.Text = dadosResultado["data_servico"].ToString();
+                        }
+
+
                     }
 
-
+                    conn.Close();
                 }
-
-                conn.Close();
             }
-            
+            else
+            {
+                MessageBox.Show("Insira um ID válido.", "Mensagem de Aviso");
+            }
         }
 
         private void btnConsultarLista_Click(object sender, EventArgs e)
@@ -111,7 +119,8 @@ namespace Projeto
                 if (campoServico != "")
                 {
                     scriptConsulta = "SELECT * FROM tb_cadastro WHERE servico = @servico";
-                } else
+                }
+                else
                 {
                     scriptConsulta = "SELECT * FROM tb_cadastro";
                 }
@@ -153,49 +162,83 @@ namespace Projeto
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-            using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
-            {// utilizo das informações
-                conn.Open();
-                string scriptDelete = "DELETE tb_cadastro WHERE id = @id";
-                string campoId = txtId.Text;
-                int controleLinhasAfetadas = 0;
+            string campoId = txtId.Text;
 
-                using (MySqlCommand comando = new MySqlCommand(scriptDelete, conn))
-                {
-                    comando.Parameters.AddWithValue("@id", campoId);
+            if (campoId != string.Empty)
+            {
+                using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
+                {// utilizo das informações
+                    conn.Open();
+                    string scriptDelete = "DELETE FROM tb_cadastro WHERE id = @id";
+                    int controleLinhasAfetadas = 0;
 
-                    controleLinhasAfetadas = comando.ExecuteNonQuery();
-                }
-                conn.Close();
-            }//MysqlConnection
+                    using (MySqlCommand comando = new MySqlCommand(scriptDelete, conn))
+                    {
+                        comando.Parameters.AddWithValue("@id", campoId);
+
+                        controleLinhasAfetadas = comando.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }//MysqlConnection
+            }
+            else
+            {
+                MessageBox.Show("Insira um ID válido.", "Mensagem de Aviso");
+            }
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
             using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
-            {// utilizo das informações
+            {
                 conn.Open();
-                string scriptUpdate = "UPDATE tb_cadastro SET " +
-                    "nome = @nome, servico = @servico, data_servico = @data_servico WHERE id = @id";
+                string scriptUpdate = "";
 
                 string campoId = txtId.Text;
                 string campoNome = txtNome.Text;
                 string campoServico = cbServico.Text;
                 DateTime dataConvertida = DateTime.Parse(dtpData.Text);
 
+                int idConvertido = 0;
+                bool isIdValido = int.TryParse(campoId, out idConvertido);
+
                 int controleLinhasAfetadas = 0;
 
-                using (MySqlCommand comando = new MySqlCommand(scriptUpdate, conn))
+                if(campoId != string.Empty && isIdValido == true)
                 {
-                    comando.Parameters.AddWithValue("@nome", campoNome);
-                    comando.Parameters.AddWithValue("@servico", campoServico);
-                    comando.Parameters.AddWithValue("@data_servico", dataConvertida);
-                    comando.Parameters.AddWithValue("@id", campoId);
+                    if(campoNome != string.Empty && campoServico != string.Empty)
+                    {
+                        scriptUpdate = "UPDATE tb_cadastro SET nome = @nome, servico = @servico, data_servico = @data_servico WHERE id = @id";
+                    }
+                    else if(campoNome != string.Empty)
+                    {
+                        scriptUpdate = "UPDATE tb_cadastro SET nome = @nome, data_servico = @data_servico WHERE id = @id";
+                    }
+                    else if(campoServico != string.Empty)
+                    {
+                        scriptUpdate = "UPDATE tb_cadastro SET servico = @servico, data_servico = @data_servico WHERE id = @id";
+                    }
+                    else
+                    {
+                        scriptUpdate = "UPDATE tb_cadastro SET data_servico = @data_servico WHERE id = @id";
+                    }
+                
+                    using (MySqlCommand comando = new MySqlCommand(scriptUpdate, conn))
+                    {
+                        comando.Parameters.AddWithValue("@nome", campoNome);
+                        comando.Parameters.AddWithValue("@servico", campoServico);
+                        comando.Parameters.AddWithValue("@data_servico", dataConvertida);
+                        comando.Parameters.AddWithValue("@id", campoId);
 
-                    controleLinhasAfetadas = comando.ExecuteNonQuery();
+                        controleLinhasAfetadas = comando.ExecuteNonQuery();
+                    }
+                    conn.Close();
                 }
-                conn.Close();
-            }//MysqlConnection
+                else
+                {
+                    MessageBox.Show("Preencha o campo de ID", "Mensagem de Aviso");
+                }
+            }
         }
     }
 }
