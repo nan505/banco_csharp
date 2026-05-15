@@ -28,12 +28,6 @@ namespace Projeto
 
             int controleLinhasAfetadas = 0;
 
-            //MessageBox.Show( 
-            //    $"nome: {campoNome}\n" +
-            //    $"serviço: {campoServico}\n" +
-            //    $"data: {campoData}\n" +
-            //    $"data Convertida: {dataConvertida}");
-
             if (campoNome != string.Empty && campoServico != string.Empty && campoData != string.Empty)
             {
                 DateTime dataConvertida = DateTime.Parse(campoData);
@@ -53,7 +47,7 @@ namespace Projeto
                         controleLinhasAfetadas = comando.ExecuteNonQuery();
                     }
                     conn.Close();
-                }//MysqlConnection
+                }
 
                 if (controleLinhasAfetadas > 0)
                 {
@@ -92,10 +86,7 @@ namespace Projeto
                             lbServicoResultado.Text = dadosResultado["servico"].ToString();
                             lbDataResultado.Text = dadosResultado["data_servico"].ToString();
                         }
-
-
                     }
-
                     conn.Close();
                 }
             }
@@ -124,15 +115,6 @@ namespace Projeto
                 {
                     scriptConsulta = "SELECT * FROM tb_cadastro";
                 }
-
-                //if (dataConvertida != null && dataConvertida != DateTime.Now)
-                //{
-                //    scriptConsulta = "SELECT * FROM tb_cadastro WHERE data_servico = @data_servico";
-                //}
-                //else
-                //{
-                //    scriptConsulta = "SELECT * FROM tb_cadastro";
-                //}
 
                 using (MySqlCommand comando = new MySqlCommand(scriptConsulta, conn))
                 {
@@ -167,7 +149,7 @@ namespace Projeto
             if (campoId != string.Empty)
             {
                 using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
-                {// utilizo das informações
+                {
                     conn.Open();
                     string scriptDelete = "DELETE FROM tb_cadastro WHERE id = @id";
                     int controleLinhasAfetadas = 0;
@@ -179,7 +161,7 @@ namespace Projeto
                         controleLinhasAfetadas = comando.ExecuteNonQuery();
                     }
                     conn.Close();
-                }//MysqlConnection
+                }
             }
             else
             {
@@ -207,12 +189,12 @@ namespace Projeto
 
                     string scriptUpdate = "UPDATE tb_cadastro SET ";
 
-                    if (!string.IsNullOrEmpty(campoNome))
+                    if (!string.IsNullOrEmpty(campoNome) )
                     {
                         scriptUpdate += "nome = @nome, ";
                     }
 
-                    if (!string.IsNullOrEmpty(campoServico))
+                    if (!string.IsNullOrEmpty(campoServico) )
                     {
                         scriptUpdate += "servico = @servico, ";
                     }
@@ -230,6 +212,7 @@ namespace Projeto
                     }
                     conn.Close();
                 }
+
             }
             else
             {
