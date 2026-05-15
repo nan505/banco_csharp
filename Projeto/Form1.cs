@@ -189,40 +189,36 @@ namespace Projeto
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
+            string campoId = txtId.Text;
+            string campoNome = txtNome.Text;
+            string campoServico = cbServico.Text;
+            DateTime dataConvertida = DateTime.Parse(dtpData.Text);
+
+            int idConvertido = 0;
+            bool isIdValido = int.TryParse(campoId, out idConvertido);
+
+            if (isIdValido == true && idConvertido > 0)
             {
-                conn.Open();
-                string scriptUpdate = "";
-
-                string campoId = txtId.Text;
-                string campoNome = txtNome.Text;
-                string campoServico = cbServico.Text;
-                DateTime dataConvertida = DateTime.Parse(dtpData.Text);
-
-                int idConvertido = 0;
-                bool isIdValido = int.TryParse(campoId, out idConvertido);
-
-                int controleLinhasAfetadas = 0;
-
-                if(campoId != string.Empty && isIdValido == true)
+                using (MySqlConnection conn = new MySqlConnection(DADOS_CONEXAO))
                 {
-                    if(campoNome != string.Empty && campoServico != string.Empty)
+                    conn.Open();
+
+                    int controleLinhasAfetadas = 0;
+
+                    string scriptUpdate = "UPDATE tb_cadastro SET ";
+
+                    if (!string.IsNullOrEmpty(campoNome))
                     {
-                        scriptUpdate = "UPDATE tb_cadastro SET nome = @nome, servico = @servico, data_servico = @data_servico WHERE id = @id";
+                        scriptUpdate += "nome = @nome, ";
                     }
-                    else if(campoNome != string.Empty)
+
+                    if (!string.IsNullOrEmpty(campoServico))
                     {
-                        scriptUpdate = "UPDATE tb_cadastro SET nome = @nome, data_servico = @data_servico WHERE id = @id";
+                        scriptUpdate += "servico = @servico, ";
                     }
-                    else if(campoServico != string.Empty)
-                    {
-                        scriptUpdate = "UPDATE tb_cadastro SET servico = @servico, data_servico = @data_servico WHERE id = @id";
-                    }
-                    else
-                    {
-                        scriptUpdate = "UPDATE tb_cadastro SET data_servico = @data_servico WHERE id = @id";
-                    }
-                
+
+                    scriptUpdate += "data_servico = @data_servico WHERE id = @id";
+
                     using (MySqlCommand comando = new MySqlCommand(scriptUpdate, conn))
                     {
                         comando.Parameters.AddWithValue("@nome", campoNome);
@@ -234,10 +230,10 @@ namespace Projeto
                     }
                     conn.Close();
                 }
-                else
-                {
-                    MessageBox.Show("Preencha o campo de ID", "Mensagem de Aviso");
-                }
+            }
+            else
+            {
+                MessageBox.Show("Insira um ID válido maior que zero.", "Mensagem de Aviso");
             }
         }
     }
